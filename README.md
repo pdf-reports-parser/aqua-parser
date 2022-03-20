@@ -1,14 +1,24 @@
-## Contributing
+<h1 align="center">Aqua-parser</h1>
 
-Install dependencies:
 
-```bash
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+## Description
+...
 
-Usage:
+## How to use
+...
 
+## System Requirements
+To start the service, the following software must be installed on your working machine:
+* the "make" utility
+
+## Technologies used
+* service - python 3.10.2
+
+## Unique features of the service
+...
+
+## Start service
 ```bash
 python -m aqua
 ```
+
