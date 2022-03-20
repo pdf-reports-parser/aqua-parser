@@ -19,6 +19,6 @@ To start the service, the following software must be installed on your working m
 
 ## Start service
 ```bash
-python -m aqua
+make run
 ```
 
