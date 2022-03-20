@@ -6,6 +6,7 @@ authors = ["astra <zorkin.roman@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+"pdfminer.six" = {extras = ["image"], version = "^20220319"}
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.941"
