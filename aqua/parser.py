@@ -28,9 +28,10 @@ def validator_toc_table(table: list[list[Any]], page_num: int) -> list[Trials]:
 
 def table_printer(table: list[Trials]):
     for num, row in enumerate(table):
-        smd = row.smd.replace("\n", " ")
-        control_string = f'{num+1}: {smd}'
-        print(control_string)
+        smd = row.smd.replace('\n', ' ')
+        row_num = num + 1
+        control_string = f'{row_num}: smd = {smd}      status = {row.status} \n'
+        print(control_string)  # noqa: WPS421 only for result analyze
 
 
 def toc_parser(start_page: int, finish_page: int) -> list[Trials]:
@@ -39,7 +40,6 @@ def toc_parser(start_page: int, finish_page: int) -> list[Trials]:
     toc_list = []
 
     for page in pages:
-        page = page.crop((0, 0, page.width, page.height-30))
         table = page.extract_table(config.toc_table_settings)
         valid_table = validator_toc_table(table, page.page_number)
         toc_list.extend(valid_table)
