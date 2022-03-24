@@ -1,3 +1,7 @@
+HEADING_TOC = 2
+
+SMD_ERROR = ('SMD', None, '')
+
 TOC = {
     'heading': {
         'smd': 0,
@@ -14,7 +18,3 @@ TOC = {
         'trial_object': 7,
     },
 }
-
-HEADING_TOC = 2
-
-SMD_ERROR = ('SMD', None, '')

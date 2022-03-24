@@ -27,14 +27,18 @@ def table_validator(table: list[list[Any]], page_num: int):
     return new_table
 
 
+def table_handler(table):
+    for row in table:
+        print(row)
+
+
 def plumber_parse():
     doc = pdfplumber.open(trial)
     pages = doc.pages[1:4]
     for page in pages:
         table = page.extract_table()
         valid_table = table_validator(table, page.page_number)
-        for row in valid_table:
-            print(row)
+        table_handler(valid_table)
 
 
 def parse():
