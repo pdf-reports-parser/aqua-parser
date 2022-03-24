@@ -1,5 +1,4 @@
 from pathlib import Path
-from pprint import pprint
 from typing import Any
 
 import pdfplumber
@@ -10,38 +9,44 @@ from aqua.schemas import Trials
 trial = Path('aqua/reports/pdf_report.pdf')
 
 
-def table_validator(table: list[list[Any]], page_num: int):
+def validator_toc_table(table: list[list[Any]], page_num: int) -> list[Trials]:
     new_table = []
-    if page_num == config.HEADING_TOC:
-        rule = config.TOC['heading']
-    else:
-        rule = config.TOC['content']
+
     for row in table:
-        if row[rule['smd']] not in config.SMD_ERROR:
+        if row[config.TOC['smd']] not in config.SMD_ERROR:
             new_row = Trials(
-                smd=row[rule['smd']],
-                status=row[rule['status']],
-                single_value=row[rule['single_value']],
-                trial_object=row[rule['trial_object']],
+                smd=row[config.TOC['smd']],
+                status=row[config.TOC['status']],
+                value_description=row[config.TOC['value_description']],
+                single_value=row[config.TOC['single_value']],
+                trial_object=row[config.TOC['trial_object']],
             )
             new_table.append(new_row)
+
     return new_table
 
 
-def table_handler(table):
-    for row in table:
-        print(row)
+def table_printer(table: list[Trials]):
+    for num, row in enumerate(table):
+        smd = row.smd.replace("\n", " ")
+        control_string = f'{num+1}: {smd}'
+        print(control_string)
 
 
-def plumber_parse():
+def toc_parser(start_page: int, finish_page: int) -> list[Trials]:
     doc = pdfplumber.open(trial)
-    pages = doc.pages[2:3]
+    pages = doc.pages[start_page:finish_page]
+    toc_list = []
+
     for page in pages:
-        table = page.extract_table(config.table_settings)
-        pprint(table)
-        valid_table = table_validator(table, page.page_number)
-        #table_handler(valid_table)
+        page = page.crop((0, 0, page.width, page.height-30))
+        table = page.extract_table(config.toc_table_settings)
+        valid_table = validator_toc_table(table, page.page_number)
+        toc_list.extend(valid_table)
+
+    return toc_list
 
 
 def parse():
-    plumber_parse()
+    toc_table = toc_parser(config.TOC_HEADING, config.TOC_BOTTOM)
+    table_printer(toc_table)
