@@ -1,7 +1,8 @@
 import logging
-import aqua.parser
 
-logging.basicConfig(level=logging.WARNING)
+from aqua import parser
+
+logging.basicConfig(level=logging.INFO)
 
 if __name__ == '__main__':
-    aqua.parser.parse()
+    parser.parse()
