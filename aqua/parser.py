@@ -1,4 +1,5 @@
 from pathlib import Path
+from pprint import pprint
 from typing import Any
 
 import pdfplumber
@@ -34,11 +35,12 @@ def table_handler(table):
 
 def plumber_parse():
     doc = pdfplumber.open(trial)
-    pages = doc.pages[1:4]
+    pages = doc.pages[2:3]
     for page in pages:
-        table = page.extract_table()
+        table = page.extract_table(config.table_settings)
+        pprint(table)
         valid_table = table_validator(table, page.page_number)
-        table_handler(valid_table)
+        #table_handler(valid_table)
 
 
 def parse():
