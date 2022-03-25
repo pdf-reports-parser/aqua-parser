@@ -32,7 +32,7 @@ def table_printer(table: list[Trials]):
         smd = row.smd.replace('\n', ' ')
         row_num = num + 1
         control_string = f'{row_num}: smd = {smd}      status = {row.status} \n'
-        logging.info(control_string)
+        logging.debug(control_string)
 
 
 def toc_parser(start_page: int, finish_page: int) -> list[Trials]:
