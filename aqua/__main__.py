@@ -9,11 +9,6 @@ logging.basicConfig(level=logging.ERROR)
 typer_app = typer.Typer(help='Aqua-Parser manager.')
 
 
-@typer_app.command(help='Stop parser.')
-def stop():
-    typer.echo('Stop parser')
-
-
 @typer_app.command(help='Start parser.')
 def run():
     parser.parse()
