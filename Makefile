@@ -2,10 +2,16 @@
 export
 
 dev.install:
-	@poetry install
+	@flit install --deps develop --symlink
+
+build:
+	@flit build --no-setup-py
+
+publish:
+	@flit publish
 
 run:
-	@python -m aqua
+	@python -m aqua data/report.pdf
 
 lint:
 	@mypy aqua

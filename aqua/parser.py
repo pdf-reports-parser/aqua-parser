@@ -1,53 +1,63 @@
 import logging
-from pathlib import Path
 from typing import Any
 
 import pdfplumber
 
-from aqua import config
 from aqua.schemas import Trials
 
-trial = Path('aqua/reports/pdf_report.pdf')
+logger = logging.getLogger(__name__)
+
+SMD_ERROR = ('SMD', None, '')
 
 
-def validator_toc_table(table: list[list[Any]], page_num: int) -> list[Trials]:
-    new_table = []
+class TocParser:
 
-    for row in table:
-        if row[config.TOC['smd']] not in config.SMD_ERROR:
-            new_row = Trials(
-                smd=row[config.TOC['smd']],
-                status=row[config.TOC['status']],
-                value_description=row[config.TOC['value_description']],
-                single_value=row[config.TOC['single_value']],
-                trial_object=row[config.TOC['trial_object']],
+    def parse(self, filename: str, start: int = 2, finish: int = 3):
+        toc = self._get_toc(
+            filename=filename,
+            start_page=start,
+            finish_page=finish,
+        )
+
+        self._print_toc(toc)
+
+    def _clean_toc(self, table: list[list[Any]]) -> list[Trials]:
+        new_table = []
+
+        for row in table:
+            smd, status, description, value, obj = row
+            if smd in SMD_ERROR:
+                continue
+
+            trial = Trials(
+                smd=smd,
+                status=status,
+                value_description=description,
+                single_value=value,
+                trial_object=obj,
             )
-            new_table.append(new_row)
+            new_table.append(trial)
 
-    return new_table
+        return new_table
 
+    def _get_toc(self, filename: str, start_page: int, finish_page: int) -> list[Trials]:
+        doc = pdfplumber.open(filename)
+        pages = doc.pages[start_page:finish_page]
+        toc_list = []
 
-def table_printer(table: list[Trials]):
-    for num, row in enumerate(table):
-        smd = row.smd.replace('\n', ' ')
-        row_num = num + 1
-        control_string = f'{row_num}: smd = {smd}      status = {row.status} \n'
-        logging.debug(control_string)
+        for page in pages:
+            table = page.extract_table({
+                'edge_min_length': 200,  # this param get clean toc table default 3
+            })
 
+            valid_table = self._clean_toc(table)
+            toc_list.extend(valid_table)
 
-def toc_parser(start_page: int, finish_page: int) -> list[Trials]:
-    doc = pdfplumber.open(trial)
-    pages = doc.pages[start_page:finish_page]
-    toc_list = []
+        return toc_list
 
-    for page in pages:
-        table = page.extract_table(config.toc_table_settings)
-        valid_table = validator_toc_table(table, page.page_number)
-        toc_list.extend(valid_table)
-
-    return toc_list
-
-
-def parse():
-    toc_table = toc_parser(config.TOC_HEADING, config.TOC_BOTTOM)
-    table_printer(toc_table)
+    def _print_toc(self, table: list[Trials]):
+        for num, row in enumerate(table):
+            smd = row.smd.replace('\n', ' ')
+            row_num = num + 1
+            control_string = f'{row_num}: smd = {smd}      status = {row.status} \n'
+            logger.info(control_string)
