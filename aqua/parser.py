@@ -1,9 +1,10 @@
 import logging
+from datetime import datetime
 from typing import Any
 
 import pdfplumber
 
-from aqua.schemas import Trials
+from aqua.schemas import Trials, TrialTitle
 
 logger = logging.getLogger(__name__)
 
@@ -20,17 +21,21 @@ class TitleParser:
 
     def parse(self, filename: str):
         title = self._get_title(filename)
+        logger.info(title)
         return title
 
-    def _clean_title(self, table: list[list[list[Any]]]) -> list[dict[str: Any]]:
-        trial_title, trial_descriprion = table
-        title_dict = {
-            trial_title[1][0]: trial_title[1][1],
-            trial_descriprion[0][0]: trial_descriprion[0][1],
-            trial_descriprion[2][0]: trial_descriprion[2][1],
-            trial_descriprion[3][0]: trial_descriprion[3][1],
-        }
-        return title_dict
+    def _clean_title(self, table: list[list[list[Any]]]) -> TrialTitle:
+        trial_title, trial_description = table
+
+        trial_date = datetime.strptime(trial_description[2][1], '%d.%m.%Y %H:%M')
+
+        title = TrialTitle(
+            measurement_object=trial_title[1][1],
+            project=trial_description[0][1],
+            report_date=trial_date,
+            responsible_person=trial_description[3][1],
+        )
+        return title
 
     def _get_title(self, filename: str):
         doc = pdfplumber.open(filename)
@@ -38,9 +43,7 @@ class TitleParser:
         table = page[0].extract_tables({
                 'edge_min_length': 15,  # this param get clean toc table default 3
             })
-        title_dict = self._clean_title(table)
-
-        print(table, title_dict)
+        return self._clean_title(table)
 
 
 class TocParser:
@@ -53,6 +56,7 @@ class TocParser:
         )
 
         self._print_toc(toc)
+        return toc
 
     def _clean_toc(self, table: list[list[Any]]) -> list[Trials]:
         new_table = []
