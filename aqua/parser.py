@@ -10,6 +10,39 @@ logger = logging.getLogger(__name__)
 SMD_ERROR = ('SMD', None, '')
 
 
+class TrialParser:
+
+    def __init__(self, filename):
+        self.filename = filename
+
+
+class TitleParser:
+
+    def parse(self, filename: str):
+        title = self._get_title(filename)
+        return title
+
+    def _clean_title(self, table: list[list[list[Any]]]) -> list[dict[str: Any]]:
+        trial_title, trial_descriprion = table
+        title_dict = {
+            trial_title[1][0]: trial_title[1][1],
+            trial_descriprion[0][0]: trial_descriprion[0][1],
+            trial_descriprion[2][0]: trial_descriprion[2][1],
+            trial_descriprion[3][0]: trial_descriprion[3][1],
+        }
+        return title_dict
+
+    def _get_title(self, filename: str):
+        doc = pdfplumber.open(filename)
+        page = doc.pages[0:1]
+        table = page[0].extract_tables({
+                'edge_min_length': 15,  # this param get clean toc table default 3
+            })
+        title_dict = self._clean_title(table)
+
+        print(table, title_dict)
+
+
 class TocParser:
 
     def parse(self, filename: str, start: int = 2, finish: int = 3):
