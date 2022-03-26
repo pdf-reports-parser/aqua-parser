@@ -16,5 +16,6 @@ def run(filename: str):
     toc_parser.parse(filename=filename)
     title_parser.parse(filename=filename)
 
+
 if __name__ == '__main__':
     typer_app()

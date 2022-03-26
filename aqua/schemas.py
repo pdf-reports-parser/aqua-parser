@@ -10,6 +10,7 @@ class TrialTitle(BaseModel):
     report_date: datetime
     responsible_person: str
 
+
 class Trials(BaseModel):
     smd: str
     status: Optional[str]

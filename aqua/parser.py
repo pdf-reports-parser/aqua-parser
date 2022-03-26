@@ -24,25 +24,24 @@ class TitleParser:
         logger.info(title)
         return title
 
-    def _clean_title(self, table: list[list[list[Any]]]) -> TrialTitle:
+    def _clean_title(self, table: list[list[Any]]) -> TrialTitle:
         trial_title, trial_description = table
 
         trial_date = datetime.strptime(trial_description[2][1], '%d.%m.%Y %H:%M')
 
-        title = TrialTitle(
+        return TrialTitle(
             measurement_object=trial_title[1][1],
             project=trial_description[0][1],
             report_date=trial_date,
             responsible_person=trial_description[3][1],
         )
-        return title
 
     def _get_title(self, filename: str):
         doc = pdfplumber.open(filename)
-        page = doc.pages[0:1]
+        page = doc.pages[:1]
         table = page[0].extract_tables({
-                'edge_min_length': 15,  # this param get clean toc table default 3
-            })
+            'edge_min_length': 15,  # this param get clean toc table default 3
+        })
         return self._clean_title(table)
 
 
