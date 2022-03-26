@@ -15,6 +15,7 @@ class TrialParser:
 
     def __init__(self, filename):
         self.filename = filename
+        self.doc = pdfplumber.open(self.filename)
 
 
 class TitleParser:
