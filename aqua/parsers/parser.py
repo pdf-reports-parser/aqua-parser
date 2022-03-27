@@ -3,28 +3,27 @@ import logging
 import pdfplumber
 
 from aqua.parsers import title_parser, toc_parser
-from aqua.schemas import Trial, TrialTOC
+from aqua.schemas import Measurement, MeasurementTOC
 
 logger = logging.getLogger(__name__)
 
 
-class TrialParser:
+class MeasurementParser:
 
     def __init__(self):
         self.title_parser = title_parser.TitleParser()
         self.toc_parser = toc_parser.TocParser()
 
-    def parse(self, filename: str):
-        doc = pdfplumber.open(filename)
-        trial = Trial(
+    def parse(self, doc: pdfplumber):
+        measurement = Measurement(
             title=self.title_parser.parse(doc),
             toc=self.toc_parser.parse(doc),
         )
-        logger.info(trial.title)
-        self.log_toc(trial.toc)
-        return trial
+        logger.info(measurement.title)
+        self.log_toc(measurement.toc)
+        return measurement
 
-    def log_toc(self, table: list[TrialTOC]):
+    def log_toc(self, table: list[MeasurementTOC]):
         for num, row in enumerate(table):
             smd = row.smd.replace('\n', ' ')
             row_num = num + 1

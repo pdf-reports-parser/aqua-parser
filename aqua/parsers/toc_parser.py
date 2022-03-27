@@ -2,7 +2,7 @@ from typing import Any
 
 import pdfplumber
 
-from aqua.schemas import TrialTOC
+from aqua.schemas import MeasurementTOC
 
 SMD_ERROR = ('SMD', None, '')
 
@@ -16,7 +16,7 @@ class TocParser:
             finish_page=finish,
         )
 
-    def _clean_toc(self, table: list[list[Any]]) -> list[TrialTOC]:
+    def _clean_toc(self, table: list[list[Any]]) -> list[MeasurementTOC]:
         new_table = []
 
         for row in table:
@@ -24,18 +24,18 @@ class TocParser:
             if smd in SMD_ERROR:
                 continue
 
-            trial = TrialTOC(
+            measurement_toc = MeasurementTOC(
                 smd=smd,
                 status=status,
                 value_description=description,
                 single_value=value,
                 trial_object=obj,
             )
-            new_table.append(trial)
+            new_table.append(measurement_toc)
 
         return new_table
 
-    def _get_toc(self, doc: pdfplumber, start_page: int, finish_page: int) -> list[TrialTOC]:
+    def _get_toc(self, doc: pdfplumber, start_page: int, finish_page: int) -> list[MeasurementTOC]:
         pages = doc.pages[start_page:finish_page]
         toc_list = []
 

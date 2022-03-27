@@ -4,7 +4,7 @@ from typing import Optional
 
 
 @dataclass
-class TrialTitle:
+class MeasurementTitle:
     measurement_object: str
     project: str
     report_date: datetime
@@ -12,7 +12,7 @@ class TrialTitle:
 
 
 @dataclass
-class TrialTOC:
+class MeasurementTOC:
     smd: str
     status: Optional[str]
     value_description: Optional[str]
@@ -21,6 +21,6 @@ class TrialTOC:
 
 
 @dataclass
-class Trial:
-    title: TrialTitle
-    toc: list[TrialTOC]
+class Measurement:
+    title: MeasurementTitle
+    toc: list[MeasurementTOC]

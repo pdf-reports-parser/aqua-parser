@@ -3,7 +3,7 @@ from typing import Any
 
 import pdfplumber
 
-from aqua.schemas import TrialTitle
+from aqua.schemas import MeasurementTitle
 
 
 class TitleParser:
@@ -15,14 +15,14 @@ class TitleParser:
         })
         return self._clean_title(table)
 
-    def _clean_title(self, table: list[list[Any]]) -> TrialTitle:
-        trial_title, trial_description = table
+    def _clean_title(self, table: list[list[Any]]) -> MeasurementTitle:
+        measure_title, measure_description = table
 
-        trial_date = datetime.strptime(trial_description[2][1], '%d.%m.%Y %H:%M')
+        measure_date = datetime.strptime(measure_description[2][1], '%d.%m.%Y %H:%M')
 
-        return TrialTitle(
-            measurement_object=trial_title[1][1],
-            project=trial_description[0][1],
-            report_date=trial_date,
-            responsible_person=trial_description[3][1],
+        return MeasurementTitle(
+            measurement_object=measure_title[1][1],
+            project=measure_description[0][1],
+            report_date=measure_date,
+            responsible_person=measure_description[3][1],
         )
