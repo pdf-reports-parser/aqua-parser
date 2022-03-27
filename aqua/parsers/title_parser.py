@@ -13,8 +13,7 @@ class TitleParser:
         table = page[0].extract_tables({
             'edge_min_length': 15,  # this param get clean title table default 3
         })
-        title = self._clean_title(table)
-        return title
+        return self._clean_title(table)
 
     def _clean_title(self, table: list[list[Any]]) -> TrialTitle:
         trial_title, trial_description = table
@@ -27,4 +26,3 @@ class TitleParser:
             report_date=trial_date,
             responsible_person=trial_description[3][1],
         )
-
