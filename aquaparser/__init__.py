@@ -2,6 +2,6 @@
 
 __version__ = '0.1'
 
-from aquaparser.parsers.parser import parse
+from aquaparser.parsers.parser import parse  # noqa: WPS347 need for import
 
 __all__ = ['parse']
