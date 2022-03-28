@@ -9,7 +9,7 @@ name = "aquaparser"
 name = "aqua-parser"
 authors = [
     {name = "Vladimir Puzakov", email = "vppuzakov@rambler.ru"},
-    {name = "Roman Zorkin", email = "zorkin.roman@gmail"},
+    {name = "Roman Zorkin", email = "zorkin.roman@gmail.com"},
     {name = "Pavel Vinnikov", email = "vinnpavel@gmail.com"},
 ]
 readme = "README.md"
