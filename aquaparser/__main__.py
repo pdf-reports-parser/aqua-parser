@@ -2,7 +2,7 @@ import logging
 
 import typer
 
-from aquaparser import parser
+import aquaparser
 
 logging.basicConfig(level=logging.INFO)
 
@@ -11,7 +11,7 @@ typer_app = typer.Typer(help='Aqua-Parser manager.')
 
 @typer_app.command(help='Start parser.')
 def run(filename: str):
-    parser(filename)
+    aquaparser.parse(filename)
 
 
 if __name__ == '__main__':

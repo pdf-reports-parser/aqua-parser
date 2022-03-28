@@ -2,6 +2,6 @@
 
 __version__ = '0.1'
 
-from aquaparser.parsers.parser import parser
+from aquaparser.parsers.parser import parse
 
-__all__ = ['parser']
+__all__ = ['parse']

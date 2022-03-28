@@ -8,7 +8,7 @@ from aquaparser.schemas import Measurement, MeasurementTOC
 logger = logging.getLogger(__name__)
 
 
-def parser(filename: str):
+def parse(filename: str):
     title = title_parser.TitleParser()
     toc = toc_parser.TocParser()
 
