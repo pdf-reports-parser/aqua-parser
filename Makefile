@@ -11,8 +11,8 @@ publish:
 	@flit publish
 
 run:
-	@python -m aqua data/report.pdf
+	@python -m aquaparser data/report.pdf
 
 lint:
-	@mypy aqua
-	@flake8 aqua
+	@mypy aquaparser
+	@flake8 aquaparser

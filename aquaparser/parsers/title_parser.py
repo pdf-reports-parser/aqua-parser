@@ -3,7 +3,7 @@ from typing import Any
 
 import pdfplumber
 
-from aqua.schemas import MeasurementTitle
+from aquaparser.schemas import MeasurementTitle
 
 
 class TitleParser:
