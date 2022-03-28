@@ -11,7 +11,7 @@ typer_app = typer.Typer(help='Aqua-Parser manager.')
 
 @typer_app.command(help='Start parser.')
 def run(filename: str):
-    measurement = parser(filename)
+    parser(filename)
 
 
 if __name__ == '__main__':
