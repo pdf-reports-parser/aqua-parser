@@ -2,7 +2,7 @@ from typing import Any
 
 import pdfplumber
 
-from aqua.schemas import MeasurementTOC
+from aquaparser.schemas import MeasurementTOC
 
 SMD_ERROR = ('SMD', None, '')
 

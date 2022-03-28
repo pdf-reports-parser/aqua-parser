@@ -1,9 +1,8 @@
 import logging
 
-import pdfplumber
 import typer
 
-from aqua.parsers.parser import MeasurementParser
+import aquaparser
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,9 +11,7 @@ typer_app = typer.Typer(help='Aqua-Parser manager.')
 
 @typer_app.command(help='Start parser.')
 def run(filename: str):
-    measurement = MeasurementParser()
-    doc = pdfplumber.open(filename)
-    measurement.parse(doc)
+    aquaparser.parse(filename)
 
 
 if __name__ == '__main__':
