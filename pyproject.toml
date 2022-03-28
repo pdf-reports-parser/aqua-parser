@@ -7,7 +7,11 @@ name = "aquaparser"
 
 [project]
 name = "aqua-parser"
-authors = []
+authors = [
+    {name = "Vladimir Puzakov", email = "vppuzakov@rambler.ru"},
+    {name = "Roman Zorkin", email = "zorkin.roman@gmail"},
+    {name = "Pavel Vinnikov", email = "vinnpavel@gmail.com"},
+]
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = [
@@ -36,9 +40,9 @@ classifiers = [
 ]
 dynamic = ["version", "description"]
 dependencies = [
-    "pydantic >=1.9.0",
-    "pdfplumber >=0.6.0",
-    "typer >=0.4.0"
+    "pydantic >=1.9.0,<2",
+    "pdfplumber >=0.6.0,<1",
+    "typer >=0.4.0,<1"
 ]
 requires-python = ">=3.7.0"
 
